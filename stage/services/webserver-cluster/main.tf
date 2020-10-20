@@ -143,7 +143,3 @@ resource "aws_security_group" "alb" {
     cidr_blocks	= ["0.0.0.0/0"]
   }
 }
-
-output "test" {
-  value = aws_s3_bucket.terraform-richard.id
-}
