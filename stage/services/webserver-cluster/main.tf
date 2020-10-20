@@ -1,11 +1,16 @@
-provider "aws" {
-  region = "eu-north-1"
+terraform {
+  backend "s3" {
+    bucket = "terraform-richard"
+    key    = "stage/services/webserver-cluster/terraform.tfstate"
+    region = "eu-north-1"
+
+    dynamodb_table = "terraform-richard"
+    encrypt        = true
+  }
 }
 
-variable "server_port" {
-  description = "The server port for http"
-  type = number
-  default = 8080
+provider "aws" {
+  region = "eu-north-1"
 }
 
 data "aws_vpc" "default" {
@@ -139,8 +144,6 @@ resource "aws_security_group" "alb" {
   }
 }
 
-output "alb_dns_name" {
-  value = aws_lb.example.dns_name
-  description = "The domain name of the LB"
+output "test" {
+  value = aws_s3_bucket.terraform-richard.id
 }
-
