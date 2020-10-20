@@ -1,13 +1,13 @@
-terraform {
-  backend "s3" {
-    bucket = "terraform-richard"
-    key    = "stage/services/webserver-cluster/terraform.tfstate"
-    region = "eu-north-1"
+# terraform {
+#   backend "s3" {
+#     bucket = "terraform-richard"
+#     key    = "stage/services/webserver-cluster/terraform.tfstate"
+#     region = "eu-north-1"
 
-    dynamodb_table = "terraform-richard"
-    encrypt        = true
-  }
-}
+#     dynamodb_table = "terraform-richard"
+#     encrypt        = true
+#   }
+# }
 
 provider "aws" {
   region = "eu-north-1"

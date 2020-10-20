@@ -1,13 +1,13 @@
-terraform {
-  backend "s3" {
-    bucket = "terraform-richard"
-    key    = "stage/data-stores/mysql/terraform.tfstate"
-    region = "eu-north-1"
+# terraform {
+#   backend "s3" {
+#     bucket = "terraform-richard"
+#     key    = "stage/data-stores/mysql/terraform.tfstate"
+#     region = "eu-north-1"
 
-    dynamodb_table = "terraform-richard"
-    encrypt        = true
-  }
-}
+#     dynamodb_table = "terraform-richard"
+#     encrypt        = true
+#   }
+# }
 
 provider "aws" {
   region = "eu-north-1"
@@ -24,6 +24,8 @@ resource "aws_db_instance" "example" {
   # How should we set the password
   #password = data.aws_secretmanager_secret_version.db_password.secret_string
   password = var.db_password
+
+  skip_final_snapshot = true
 }
 
 # data "aws_secretmanager_secret_version" "db_password" {
