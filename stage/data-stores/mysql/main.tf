@@ -29,3 +29,13 @@ resource "aws_db_instance" "example" {
 # data "aws_secretmanager_secret_version" "db_password" {
 #   secret_id = "mysql-master-password-staging"
 # }
+
+output "address" {
+  value = aws_db_instance.example.address
+  description = "The DB endpoint"
+}
+
+output "port" {
+  value = aws_db_instance.example.port
+  description = "The port to use"
+}

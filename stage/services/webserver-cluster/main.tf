@@ -21,6 +21,25 @@ data "aws_subnet_ids" "default" {
   vpc_id = data.aws_vpc.default.id
 }
 
+data "terraform_remote_state" "db" {
+  backend = "s3"
+  config = {
+    bucket = "terraform-richard"
+    key = "stage/data-stores/mysql/terraform.tfstate"
+    region = "eu-north-1"
+  }
+}
+
+data "template_file" "user_data" {
+  template = file("user-data.sh")
+
+  vars = {
+    server_port = var.server_port
+    db_address = data.terraform_remote_state.db.outputs.address
+    db_port = data.terraform_remote_state.db.outputs.port
+  }
+}
+
 resource "aws_lb" "example" {
   name		= "terraform-asg-example"
   load_balancer_type = "application"
@@ -82,12 +101,7 @@ resource "aws_launch_configuration" "example" {
   image_id = "ami-0ede7f804d699ea83"
   instance_type = "t3.micro"
   security_groups = [aws_security_group.instance.id]
-
-  user_data = <<-EOF
-              #!/bin/bash
-              echo "Hello, World" > index.html
-              nohup busybox httpd -f -p ${var.server_port} &
-              EOF
+  user_data = data.template_file.user_data.rendered
 
   # Required when using a launch configuration with an ASG.
   # https://www.terraform.io/docs/providers/aws/r/launch_configuration.html
