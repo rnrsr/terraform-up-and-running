@@ -1,9 +1,9 @@
 output "address" {
-  value       = module.database_instance.address
+  value       = aws_db_instance.example.address
   description = "The DB endpoint"
 }
 
 output "port" {
-  value       = module.database_instance.port
+  value       = aws_db_instance.example.port
   description = "The port to use"
 }

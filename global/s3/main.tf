@@ -1,13 +1,13 @@
-# terraform {
-#   backend "s3" {
-#     bucket = "terraform-richard"
-#     key    = "global/s3/terraform.tfstate"
-#     region = "eu-north-1"
+terraform {
+  backend "s3" {
+    bucket = "terraform-richard"
+    key    = "global/s3/terraform.tfstate"
+    region = "eu-north-1"
 
-#     dynamodb_table = "terraform-richard"
-#     encrypt        = true
-#   }
-# }
+    dynamodb_table = "terraform-richard"
+    encrypt        = true
+  }
+}
 
 provider "aws" {
   region = "eu-north-1"
@@ -18,7 +18,7 @@ resource "aws_s3_bucket" "tbg_terraform_state" {
 
   # Prevent accidental deletion of the bucket
   lifecycle {
-    #prevent_destroy = true
+    prevent_destroy = true
   }
 
   # Enable versioning so the full history is preserved
